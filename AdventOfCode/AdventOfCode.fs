@@ -13,10 +13,6 @@ let alterFrequency frequency (alteration:string) =
     | '-' -> frequency - (alteration.[1..alteration.Length-1] |> int)
     | _ -> frequency
 
-let day1test1 = 
-    readLines "C:/Users/wjaco/Documents/GitHub/AdventOfCode/AdventOfCode/values.txt"
-    |> Seq.fold (fun result alteration -> alterFrequency result alteration) 0
-
 let rec findFirstDuplicate allAlterations remainingAlterations currentFrequency previousFrequencies =
     if (List.contains currentFrequency previousFrequencies) then
         currentFrequency
@@ -26,6 +22,10 @@ let rec findFirstDuplicate allAlterations remainingAlterations currentFrequency 
             findFirstDuplicate allAlterations remainingAlterationsTail (alterFrequency currentFrequency alteration) (currentFrequency::previousFrequencies)
         | [] -> 
             findFirstDuplicate allAlterations allAlterations currentFrequency previousFrequencies
+
+let day1test1 = 
+    readLines "C:/Users/wjaco/Documents/GitHub/AdventOfCode/AdventOfCode/values.txt"
+    |> Seq.fold (fun result alteration -> alterFrequency result alteration) 0
         
 let day1test2 = 
     let masterlist = 
@@ -36,5 +36,6 @@ let day1test2 =
 
 [<EntryPoint>]
 let main argv =
+    // printfn "%A" day1test1 
     printfn "%A" day1test2 
     0 // return an integer exit code
