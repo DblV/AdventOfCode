@@ -6,6 +6,9 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Compile Include="Lib.fs" />
+    <Compile Include="D1.fs" />
+    <Compile Include="D2.fs" />
     <Compile Include="AdventOfCode.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
