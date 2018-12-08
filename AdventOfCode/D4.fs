@@ -47,13 +47,15 @@ let rec buildNapSchedule guardId prevMinute napSchedule napData =
             buildNapSchedule (int x) 0 napSchedule t
     | [] -> napSchedule
 
+let buildNapScheduleFromRawData naps = 
+    naps
+    |> Seq.map parseNapData
+    |> Seq.sortBy (fun nap -> nap.fullDate)
+    |> Seq.toList
+    |> buildNapSchedule 0 0 List.empty<NapTime>
+
 let day4test1 naps = 
-    let napSchedule = 
-        naps
-        |> Seq.map parseNapData
-        |> Seq.sortBy (fun nap -> nap.fullDate)
-        |> Seq.toList
-        |> buildNapSchedule 0 0 List.empty<NapTime>
+    let napSchedule = buildNapScheduleFromRawData naps
 
     let sleepyGuardId = 
         napSchedule
@@ -62,7 +64,7 @@ let day4test1 naps =
         |> Seq.sortByDescending snd
         |> Seq.head |> fst |> Seq.head
         |> (fun napTime -> napTime.guardId)
-     
+
     let sleepiestMinuteForGuard = 
         napSchedule
         |> Seq.filter (fun napTime -> napTime.guardId = sleepyGuardId)
@@ -71,6 +73,15 @@ let day4test1 naps =
         |> Seq.sortByDescending snd
         |> Seq.head |> fst |> Seq.head
         |> (fun napTime -> napTime.minute)
-
-    sleepyGuardId * sleepiestMinuteForGuard
+        
+    (sleepyGuardId * sleepiestMinuteForGuard)
  
+let day4test2 naps = 
+    let napSchedule = buildNapScheduleFromRawData naps
+
+    napSchedule
+    |> Seq.groupBy (fun napTime -> napTime.guardId, napTime.minute)
+    |> Seq.map (fun napTimeGroup -> (snd napTimeGroup), (snd napTimeGroup |> Seq.length))
+    |> Seq.sortByDescending snd
+    |> Seq.head |> fst |> Seq.head
+    |> (fun napTime -> napTime.guardId * napTime.minute)
