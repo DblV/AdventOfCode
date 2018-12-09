@@ -18,9 +18,23 @@ let rec processAndVerify previousLength data =
     else
         processAndVerify (data |> List.length) (processPolymer List.empty<char> System.Char.MinValue data)
 
+let seqStringToCharList strings =
+    strings |> Seq.head |> Seq.toList
+
 let day5test1 polymerStrings =
     polymerStrings
-    |> Seq.head
-    |> Seq.toList
+    |> seqStringToCharList
     |> processAndVerify 0 
     |> Seq.length
+
+let processWithoutUnit polymerString unitChar =
+    polymerString
+    |> List.filter (fun polymerChar -> polymerChar <> unitChar && polymerChar <> System.Char.ToUpper(unitChar))
+    |> processAndVerify 0
+    |> Seq.length
+
+let day5test2 polymerStrings =
+    seq { for x in [97..122] do yield char x } 
+    |> Seq.map (fun unitChar -> (processWithoutUnit (polymerStrings |> seqStringToCharList) unitChar, unitChar))
+    |> Seq.sortBy (fun unitCharCount -> fst unitCharCount)
+    |> Seq.head

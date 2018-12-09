@@ -18,5 +18,6 @@ let main argv =
     | "4.1" -> printfn "%A" (day4test1 (readLines argv.[1]))
     | "4.2" -> printfn "%A" (day4test2 (readLines argv.[1]))
     | "5.1" -> printfn "%A" (day5test1 (readLines argv.[1]))
+    | "5.2" -> printfn "%A" (day5test2 (readLines argv.[1]))
     | _ -> printfn "Invalid argument"
     0 // return an integer exit code
