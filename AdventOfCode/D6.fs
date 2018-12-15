@@ -53,6 +53,11 @@ let rec determineClosestTarget targets distmatch dist coordinate =
             determineClosestTarget t distmatch dist coordinate
     | [] -> { BaseCoordinate = coordinate; Match = distmatch; Distance = dist }
 
+let rec determineSumOfDistances targets sumOfDistances coordinate =
+    match targets with
+    | h::t -> determineSumOfDistances t (sumOfDistances + (calculateManhattanDistance coordinate h)) coordinate
+    | [] -> (coordinate, sumOfDistances)
+
 let keepCoordinate manhattanDistances boundary =
     let boundaryAvoidanceChecks = 
         manhattanDistances
@@ -88,3 +93,22 @@ let day6test1 coordinatesInput =
     |> Seq.filter (fun mdGroup -> keepCoordinate (snd mdGroup) boundary)
     |> Seq.map (fun mdGroup -> (snd mdGroup), (snd mdGroup |> Seq.length))
     |> Seq.sortByDescending (fun mdCount -> snd mdCount)
+
+let day6test2 coordinatesInput =
+    let coordinates = 
+        coordinatesInput
+        |> Seq.map parseCoordinates
+        |> Seq.toList
+
+    let boundary = findBoundary 0 0 0 0 coordinates
+
+    let space = seq {
+        for x in [boundary.MinX..boundary.MaxX] do
+            for y in [boundary.MinY..boundary.MaxY] do
+                yield x, y
+    }
+
+    space 
+    |> Seq.map (determineSumOfDistances coordinates 0)
+    |> Seq.filter (fun coordDists -> (snd coordDists) < 10000)
+    |> Seq.length
