@@ -12,6 +12,7 @@
     <Compile Include="D3.fs" />
     <Compile Include="D4.fs" />
     <Compile Include="D5.fs" />
+    <Compile Include="D6.fs" />
     <Compile Include="AdventOfCode.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
