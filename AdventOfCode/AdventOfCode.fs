@@ -6,6 +6,7 @@ open D3
 open D4
 open D5
 open D6
+open D7
 
 [<EntryPoint>]
 let main argv =
@@ -22,5 +23,6 @@ let main argv =
     | "5.2" -> printfn "%A" (day5test2 (readLines argv.[1]))
     | "6.1" -> printfn "%A" (day6test1 (readLines argv.[1]))
     | "6.2" -> printfn "%A" (day6test2 (readLines argv.[1]))
+    | "7.1" -> printfn "%A" (day7test1 (readLines argv.[1]))
     | _ -> printfn "Invalid argument"
     0 // return an integer exit code
